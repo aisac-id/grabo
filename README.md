@@ -1,3 +1,5 @@
+<p align="center"><img src="promo/logo-wordmark.png" alt="Grabo — Bulk Media Grabber" width="520"></p>
+
 # Grabo — Bulk Media Grabber
 
 ![Grabo](promo/hero-1920x1080.png)
