@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8"><title>Grabo — Galeri hasil AI (fixture)</title>
+<meta property="og:image" content="assets/big-12.jpg">
+<style>body{margin:0;font-family:system-ui,sans-serif;background:#0d0a12;color:#eee}
+header{padding:20px 24px;border-bottom:1px solid #2a2135}h1{margin:0;font-size:21px}
+main{padding:20px 24px;display:flex;flex-wrap:wrap;gap:12px;max-width:1000px}
+figure{margin:0;width:230px}img{width:100%;border-radius:8px;display:block}
+figcaption{font-size:11px;color:#a99cb8;font-family:ui-monospace,monospace}
+button{font:inherit;padding:8px 14px;border-radius:8px;border:1px solid #ff2e88;background:#1a1024;color:#fff}
+  img, video, canvas { max-width:100%; }
+</style></head><body>
+<header><h1>Galeri hasil AI (fixture)</h1><p style="color:#a99cb8;font-size:13px;margin:6px 0 0">Halaman kedua untuk uji panen berantai dari daftar tautan.</p></header>
+<main>
+<figure><img loading="lazy" src="assets/big-07.jpg" alt=""><figcaption>big-07.jpg</figcaption></figure>
+<figure><img loading="lazy" src="assets/big-08.jpg" alt=""><figcaption>big-08.jpg</figcaption></figure>
+<figure><img loading="lazy" src="assets/big-09.jpg" alt=""><figcaption>big-09.jpg</figcaption></figure>
+<figure><img loading="lazy" src="assets/big-10.jpg" alt=""><figcaption>big-10.jpg</figcaption></figure>
+<figure><img loading="lazy" src="assets/big-11.jpg" alt=""><figcaption>big-11.jpg</figcaption></figure>
+<figure><img loading="lazy" src="assets/big-12.jpg" alt=""><figcaption>big-12.jpg</figcaption></figure>
+</main>
+<p style="padding:0 24px 40px"><button id="more">Muat lebih</button></p>
+<script>
+document.getElementById('more').onclick=function(){
+  const m=document.querySelector('main');
+  [4,5,6].forEach(function(n){
+    const f=document.createElement('figure');
+    f.innerHTML='<img src="assets/lazy/lazy-'+String(n).padStart(2,'0')+'.jpg" alt=""><figcaption>muat lebih '+n+'</figcaption>';
+    m.appendChild(f);
+  });
+  this.disabled=true;
+};
+</script>
+</body></html>

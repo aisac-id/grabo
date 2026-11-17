@@ -1,0 +1,66 @@
+{
+  "manifest_version": 3,
+  "name": "Grabo — Bulk Media Grabber",
+  "version": "1.0.0",
+  "description": "Panen gambar & video dari halaman yang kamu buka secara massal: antrian persisten, pilih folder tujuan, dedup hash, HLS/DASH non-DRM. Semua diproses lokal.",
+  "author": "aisac-id",
+  "homepage_url": "https://github.com/aisac-id/grabo",
+  "minimum_chrome_version": "116",
+  "permissions": [
+    "storage",
+    "unlimitedStorage",
+    "scripting",
+    "tabs",
+    "activeTab",
+    "downloads",
+    "webRequest",
+    "contextMenus"
+  ],
+  "host_permissions": ["<all_urls>"],
+  "background": { "service_worker": "background.js" },
+  "action": {
+    "default_title": "Grabo — buka sidebar (Alt+Shift+G)",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png",
+    "512": "icons/icon512.png"
+  },
+  "commands": {
+    "toggle-sidebar": {
+      "suggested_key": { "default": "Alt+Shift+G" },
+      "description": "Buka / tutup sidebar Grabo"
+    },
+    "harvest": {
+      "suggested_key": { "default": "Alt+Shift+P" },
+      "description": "Panen media di halaman aktif"
+    },
+    "open-studio": {
+      "suggested_key": { "default": "Alt+Shift+S" },
+      "description": "Buka Studio Grabo (mesin antrian)"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["src/util.js", "src/harvest.js", "src/adapters.js", "src/content.js"],
+      "css": ["src/page.css"],
+      "run_at": "document_idle",
+      "all_frames": false
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["sidebar.html", "src/*", "fonts/*", "icons/*"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

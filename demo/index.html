@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grabo — halaman uji panen</title>
+<meta property="og:image" content="assets/big-11.jpg">
+<meta property="og:video" content="assets/clip.mp4">
+<meta name="twitter:image" content="assets/big-12.jpg">
+<link rel="preload" as="image" href="assets/portrait-04.png" imagesrcset="assets/portrait-03.png 900w, assets/portrait-04.png 1800w">
+<link rel="icon" href="assets/tiny-avatar-03.png">
+<style>
+  :root { color-scheme: dark; }
+  body { margin:0; font-family: system-ui, sans-serif; background:#0d0a12; color:#eee; }
+  header { padding:22px 26px; border-bottom:1px solid #2a2135; }
+  h1 { margin:0 0 4px; font-size:24px; }
+  p.sub { margin:0; color:#a99cb8; font-size:13px; }
+  main { padding:22px 26px 90px; max-width:1100px; }
+  h2 { font-size:15px; margin:26px 0 10px; color:#ff2e88; letter-spacing:.4px; text-transform:uppercase; }
+  .row { display:flex; flex-wrap:wrap; gap:12px; }
+  .cell { width:220px; max-width:100%; }
+  .cell img, .cell video { width:100%; display:block; border-radius:8px; border:1px solid #2a2135; background:#151020; }
+  img, video, canvas { max-width:100%; }
+  .cell figcaption { font-size:11px; color:#a99cb8; margin-top:4px; font-family:ui-monospace,monospace; }
+  .bg { width:220px; height:130px; border-radius:8px; border:1px solid #2a2135; background-size:cover; background-position:center; }
+  button { font:inherit; padding:8px 14px; border-radius:8px; border:1px solid #ff2e88; background:#1a1024; color:#fff; cursor:pointer; }
+  canvas { border-radius:8px; border:1px solid #2a2135; }
+  .tall { height:1400px; }
+  a.dl { color:#00e5ff; font-size:13px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Halaman uji panen Grabo</h1>
+  <p class="sub">Fixture lokal: srcset, malas-muat, picture, latar CSS, kanvas, blob, data URL, video progresif, HLS, DASH, duplikat isi, dan URL kedaluwarsa.</p>
+</header>
+<main>
+  <h2>1 · Srcset &amp; versi penuh</h2>
+  <div class="row" id="sec-srcset"></div>
+
+  <h2>2 · Malas-muat (data-src / loading=lazy)</h2>
+  <div class="row" id="sec-lazy"></div>
+
+  <h2>3 · Picture &amp; source</h2>
+  <div class="row">
+    <figure class="cell">
+      <picture>
+        <source type="image/png" srcset="assets/portrait-01.png">
+        <img src="assets/big-05.jpg" alt="potret">
+      </picture>
+      <figcaption>picture + source</figcaption>
+    </figure>
+    <figure class="cell">
+      <img src="assets/vector-mark.svg" alt="vektor">
+      <figcaption>svg</figcaption>
+    </figure>
+    <figure class="cell">
+      <img src="assets/tiny-avatar-01.png" alt="avatar kecil">
+      <figcaption>48×48 (harus tersaring)</figcaption>
+    </figure>
+    <figure class="cell">
+      <img src="assets/thumb-01.jpg" alt="thumbnail">
+      <figcaption>thumb-01 (harus tersaring)</figcaption>
+    </figure>
+  </div>
+
+  <h2>4 · Latar CSS</h2>
+  <div class="row">
+    <div class="bg" style="background-image:url('assets/big-06.jpg')"></div>
+    <div class="bg" style="background-image:url('assets/big-07.jpg')"></div>
+    <div class="bg" id="bg-computed"></div>
+    <div class="bg" style="background-image:url('assets/css-only.jpg')"></div>
+  </div>
+
+  <h2>5 · Kanvas, blob, dan data URL</h2>
+  <div class="row">
+    <figure class="cell"><canvas id="cv" width="640" height="400"></canvas><figcaption>kanvas 640×400</figcaption></figure>
+    <figure class="cell"><img id="blob-img" alt="blob"><figcaption>blob: dari kanvas</figcaption></figure>
+    <figure class="cell"><img id="data-img" alt="data URL"><figcaption>data: PNG</figcaption></figure>
+  </div>
+
+  <h2>6 · Video progresif</h2>
+  <div class="row">
+    <figure class="cell" style="width:340px">
+      <video id="v-prog" controls muted poster="assets/big-08.jpg" preload="metadata">
+        <source src="assets/clip.mp4" type="video/mp4">
+      </video>
+      <figcaption>clip.mp4 + poster</figcaption>
+    </figure>
+    <figure class="cell" style="width:340px">
+      <video id="v-blob" controls muted></video>
+      <figcaption>blob: video (dari fetch)</figcaption>
+    </figure>
+  </div>
+
+  <h2>7 · Aliran (HLS / DASH)</h2>
+  <p class="sub">Tombol ini mengambil playlist seperti pemutar asli, supaya pengamat jaringan Grabo melihatnya.</p>
+  <div class="row" style="margin-top:10px">
+    <button id="b-hls">Muat HLS master</button>
+    <button id="b-fmp4">Muat HLS fMP4</button>
+    <button id="b-dash">Muat DASH</button>
+    <button id="b-secure">Muat HLS terenkripsi</button>
+    <button id="b-dashsecure">Muat DASH terproteksi</button>
+  </div>
+  <div class="row" style="margin-top:12px">
+    <figure class="cell" style="width:340px">
+      <video id="v-hls" controls muted poster="assets/big-09.jpg">
+        <source src="assets/hls/master.m3u8" type="application/vnd.apple.mpegurl">
+      </video>
+      <figcaption>source m3u8 di DOM</figcaption>
+    </figure>
+  </div>
+
+  <h2>8 · Duplikat isi &amp; tautan berkas</h2>
+  <div class="row">
+    <figure class="cell"><img src="assets/alias/copy-of-big-01.jpg" alt="duplikat 1"><figcaption>isi sama dengan big-01</figcaption></figure>
+    <figure class="cell"><img src="assets/alias/another-name-same-bytes.jpg" alt="duplikat 2"><figcaption>isi sama dengan big-02</figcaption></figure>
+    <figure class="cell"><img src="assets/big-01.jpg?utm_source=uji&amp;fbclid=abc" alt="varian utm"><figcaption>big-01 + parameter sampah</figcaption></figure>
+  </div>
+  <p><a class="dl" href="assets/portrait-02.png" download="potret-unduhan.png">Unduh potret-02.png (tautan download)</a></p>
+  <p><a class="dl" href="assets/big-10.jpg">Tautan biasa ke gambar besar</a></p>
+
+  <h2>9 · URL kedaluwarsa &amp; flaky</h2>
+  <div class="row">
+    <figure class="cell"><img src="assets/expired-token.jpg" alt="403"><figcaption>403 (harus gagal, bukan digantung)</figcaption></figure>
+    <figure class="cell"><img src="assets/flaky-01.jpg" alt="flaky"><figcaption>gagal 2× lalu berhasil (uji coba ulang)</figcaption></figure>
+  </div>
+
+  <h2>10 · Muat lebih</h2>
+  <div class="row" id="sec-more"></div>
+  <p><button id="b-more">Muat lebih</button></p>
+
+  <div class="tall"></div>
+  <h2>11 · Jauh di bawah lipatan</h2>
+  <div class="row">
+    <figure class="cell"><img loading="lazy" src="assets/big-03.jpg" alt="bawah"><figcaption>lazy native</figcaption></figure>
+    <figure class="cell"><img data-original="assets/big-04.jpg" src="assets/thumb-02.jpg" alt="data-original"><figcaption>data-original</figcaption></figure>
+  </div>
+  <div class="row" id="sec-fold"></div>
+  <p class="sub">Tiga gambar di atas baru dibuat oleh skrip saat wadahnya terlihat — tidak ada jejaknya di DOM sebelum digulir.</p>
+</main>
+
+<script>
+(function () {
+  const srcset = document.getElementById('sec-srcset');
+  for (let i = 1; i <= 4; i++) {
+    const n = String(i).padStart(2, '0');
+    const f = document.createElement('figure');
+    f.className = 'cell';
+    f.innerHTML = '<img src="assets/thumb-0' + i + '.jpg" srcset="assets/big-' + n + '.jpg 1600w, assets/thumb-0' + i + '.jpg 200w" sizes="220px" alt="karya ' + n + '">' +
+      '<figcaption>srcset → big-' + n + '</figcaption>';
+    srcset.appendChild(f);
+  }
+
+  const lazy = document.getElementById('sec-lazy');
+  for (let i = 5; i <= 8; i++) {
+    const n = String(i).padStart(2, '0');
+    const f = document.createElement('figure');
+    f.className = 'cell';
+    f.innerHTML = '<img data-src="assets/big-' + n + '.jpg" src="assets/thumb-01.jpg" alt="malas ' + n + '">' +
+      '<figcaption>data-src → big-' + n + '</figcaption>';
+    lazy.appendChild(f);
+  }
+  /* Pengganti malas-muat sederhana: baru dipasang setelah terlihat. */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (!e.isIntersecting) return;
+      const el = e.target;
+      if (el.dataset.src) { el.src = el.dataset.src; delete el.dataset.src; }
+      io.unobserve(el);
+    });
+  }, { rootMargin: '200px' });
+  lazy.querySelectorAll('img[data-src]').forEach((el) => io.observe(el));
+
+  document.getElementById('bg-computed').style.backgroundImage = "url('assets/big-09.jpg')";
+
+  const cv = document.getElementById('cv');
+  const cx = cv.getContext('2d');
+  const g = cx.createLinearGradient(0, 0, 640, 400);
+  g.addColorStop(0, '#ff2e88'); g.addColorStop(.55, '#8b5cff'); g.addColorStop(1, '#00e5ff');
+  cx.fillStyle = g; cx.fillRect(0, 0, 640, 400);
+  cx.fillStyle = '#0b0611'; cx.font = 'bold 44px system-ui'; cx.fillText('KANVAS', 30, 80);
+  cx.fillStyle = '#c6ff3d'; cx.beginPath(); cx.arc(520, 300, 62, 0, Math.PI * 2); cx.fill();
+  cv.toBlob((b) => { document.getElementById('blob-img').src = URL.createObjectURL(b); }, 'image/png');
+
+  const small = document.createElement('canvas');
+  small.width = 320; small.height = 200;
+  const sx = small.getContext('2d');
+  sx.fillStyle = '#8b5cff'; sx.fillRect(0, 0, 320, 200);
+  sx.fillStyle = '#c6ff3d'; sx.fillRect(40, 40, 240, 120);
+  document.getElementById('data-img').src = small.toDataURL('image/png');
+
+  fetch('assets/clip.mp4').then((r) => r.blob()).then((b) => {
+    document.getElementById('v-blob').src = URL.createObjectURL(b);
+  });
+
+  const load = (url) => fetch(url).then((r) => r.text()).then((t) => {
+    console.log('playlist dimuat', url, t.length, 'byte');
+    return t;
+  });
+  document.getElementById('b-hls').onclick = () => load('assets/hls/master.m3u8').then(() => load('assets/hls/index.m3u8'));
+  document.getElementById('b-fmp4').onclick = () => load('assets/hls-fmp4/master.m3u8').then(() => load('assets/hls-fmp4/index.m3u8'));
+  document.getElementById('b-dash').onclick = () => load('assets/dash/manifest.mpd');
+  document.getElementById('b-secure').onclick = () => load('assets/secure/master.m3u8');
+  document.getElementById('b-dashsecure').onclick = () => load('assets/dash-secure/manifest.mpd');
+
+  /* Pemutar sungguhan mengambil playlist sendiri saat halaman dibuka. */
+  ['assets/hls/master.m3u8', 'assets/hls-fmp4/master.m3u8', 'assets/dash/manifest.mpd',
+    'assets/secure/master.m3u8', 'assets/dash-secure/manifest.mpd'].forEach((u) => load(u));
+
+  /* Wadah yang baru membuat <img> saat terlihat: tidak ada URL di DOM sebelumnya. */
+  const fold = document.getElementById('sec-fold');
+  const fo = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (!e.isIntersecting) return;
+      for (let i = 1; i <= 3; i++) {
+        const f = document.createElement('figure');
+        f.className = 'cell';
+        f.innerHTML = '<img src="assets/fold/fold-0' + i + '.jpg" alt="bawah lipatan ' + i + '">' +
+          '<figcaption>baru dibuat saat terlihat</figcaption>';
+        fold.appendChild(f);
+      }
+      fo.unobserve(e.target);
+    });
+  }, { rootMargin: '150px' });
+  fo.observe(fold);
+
+  let page = 0;
+  document.getElementById('b-more').onclick = () => {
+    const box = document.getElementById('sec-more');
+    for (let k = 1; k <= 4; k++) {
+      const idx = page * 4 + k;
+      if (idx > 8) return;
+      const f = document.createElement('figure');
+      f.className = 'cell';
+      f.innerHTML = '<img src="assets/lazy/lazy-' + String(idx).padStart(2, '0') + '.jpg" alt="tambahan ' + idx + '">' +
+        '<figcaption>muat lebih #' + idx + '</figcaption>';
+      box.appendChild(f);
+    }
+    page++;
+    if (page >= 2) document.getElementById('b-more').disabled = true;
+  };
+})();
+</script>
+</body>
+</html>

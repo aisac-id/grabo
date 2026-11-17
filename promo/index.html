@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grabo · Kit Promosi &amp; Merek</title>
+<meta name="description" content="Logo, kotak perangkat lunak, poster, aset sosial, dan video promosi Grabo. Semua aset sumber terbuka di bawah lisensi MIT.">
+<meta property="og:title" content="Grabo · Kit Promosi &amp; Merek">
+<meta property="og:description" content="Panen gambar &amp; video secara massal — antrian sungguhan, folder tujuan pilihanmu, dedup isi, HLS/DASH non-DRM.">
+<meta property="og:image" content="og-1200x630.png">
+<link rel="icon" href="../icons/icon128.png">
+<style>
+@font-face{font-family:'Bricolage Grotesque';src:url('../fonts/bricolage.woff2') format('woff2');font-weight:200 900;font-display:swap}
+@font-face{font-family:'Plus Jakarta Sans';src:url('../fonts/jakarta.woff2') format('woff2');font-weight:200 800;font-display:swap}
+@font-face{font-family:'JetBrains Mono';src:url('../fonts/jetbrains.woff2') format('woff2');font-weight:100 800;font-display:swap}
+:root{
+  --a:#FF2E88;--b:#8B5CFF;--c:#00E5FF;--spark:#C6FF3D;--danger:#FF4D5E;--warn:#FFB020;--info:#4DA3FF;
+  --ink:#0B0611;--ink2:#1A1030;--surface:#150C26;--dim:#A79BC4;--text:#F4EEFF;
+  --grad:linear-gradient(112deg,var(--a),var(--b) 52%,var(--c));
+  --line:#A79BC42e;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--ink);color:var(--text);font-family:'Plus Jakarta Sans',system-ui,sans-serif;
+     font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3,.disp{font-family:'Bricolage Grotesque','Plus Jakarta Sans',sans-serif;letter-spacing:-.01em}
+.mono{font-family:'JetBrains Mono',monospace}
+a{color:var(--c)}
+::-webkit-scrollbar{width:12px;height:12px}
+::-webkit-scrollbar-track{background:#120A20}
+::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--a),var(--b));border-radius:8px;border:3px solid #120A20}
+::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg,var(--b),var(--c))}
+
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.bg i{position:absolute;border-radius:50%;filter:blur(100px);display:block}
+.bg .g1{width:60vw;height:60vw;left:-16vw;top:-22vw;background:radial-gradient(circle,#FF2E8855,transparent 68%)}
+.bg .g2{width:56vw;height:56vw;right:-18vw;top:6vh;background:radial-gradient(circle,#00E5FF44,transparent 66%)}
+.bg .g3{width:70vw;height:50vw;left:8vw;bottom:-26vw;background:radial-gradient(circle,#8B5CFF4a,transparent 70%)}
+.bg .grid{position:absolute;inset:0;opacity:.45;border-radius:0;filter:none;
+  background-image:linear-gradient(#A79BC412 1px,transparent 1px),linear-gradient(90deg,#A79BC412 1px,transparent 1px);
+  background-size:64px 64px;mask-image:radial-gradient(ellipse at 50% 30%,#000 20%,transparent 78%)}
+.bg .belt{position:absolute;left:0;right:0;height:22px;border-radius:0;filter:none;opacity:.35;
+  background:repeating-linear-gradient(90deg,#A79BC43a 0 20px,transparent 20px 40px)}
+.bg .b1{top:18vh}.bg .b2{bottom:16vh;opacity:.22}
+
+header{position:sticky;top:0;z-index:20;backdrop-filter:blur(14px);
+  background:#0B0611e0;border-bottom:1px solid var(--line)}
+.hin{max-width:1240px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:18px}
+.hin img{height:38px;display:block}
+.hin nav{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+.hin nav a{font-size:12px;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;color:var(--dim);
+  padding:8px 12px;border-radius:999px;border:1px solid transparent;font-weight:700}
+.hin nav a:hover{color:var(--text);border-color:var(--line);background:#1A1030aa}
+
+main{position:relative;z-index:2;max-width:1240px;margin:0 auto;padding:52px 24px 90px}
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:center}
+.chip{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:999px;
+  background:#1A1030cc;padding:8px 15px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:700}
+.chip .dot{width:7px;height:7px;border-radius:50%;background:var(--spark);box-shadow:0 0 10px var(--spark)}
+h1{font-size:clamp(38px,5.2vw,66px);line-height:1;margin:22px 0 0;font-weight:800}
+.grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{margin-top:20px;font-size:18px;color:#F4EEFFcc;max-width:56ch}
+.stats{margin-top:28px;display:flex;gap:28px;flex-wrap:wrap}
+.stats div b{display:block;font-size:38px;line-height:1;font-weight:800;font-family:'Bricolage Grotesque',sans-serif}
+.stats div span{display:block;margin-top:5px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
+.cta{margin-top:30px;display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:9px;padding:12px 20px;border-radius:12px;font-weight:700;
+  text-decoration:none;font-size:14px;border:1px solid var(--line);color:var(--text);background:#1A1030cc}
+.btn.pri{background:var(--grad);border-color:transparent;color:#0B0611}
+.btn:hover{transform:translateY(-1px)}
+.shot{border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--ink2);
+  box-shadow:0 40px 90px -34px #000c,0 0 70px -26px #8B5CFF66}
+.shot img{display:block;width:100%}
+
+section{margin-top:74px}
+.sh{display:flex;align-items:flex-end;gap:16px;margin-bottom:22px}
+.sh h2{font-size:30px;font-weight:800;margin:0}
+.sh p{margin:0 0 4px;color:var(--dim);font-size:14px}
+.rule{height:3px;border-radius:2px;background:var(--grad);width:74px;margin-bottom:12px}
+
+.grid{display:grid;gap:22px}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.card{background:#150C26cc;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.card .im{background:#0B0611;display:block}
+.card .im img{display:block;width:100%}
+.card .cap{padding:14px 18px;display:flex;align-items:center;gap:12px}
+.card .cap b{font-size:15px}
+.card .cap span{margin-left:auto;font-size:11px;color:var(--dim);letter-spacing:.08em}
+.card .cap a{font-size:11px;text-decoration:none;color:var(--c);letter-spacing:.1em;font-weight:700}
+
+.video{position:relative;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:#000}
+.video video{display:block;width:100%}
+.note{margin-top:14px;font-size:13px;color:var(--dim)}
+
+.pal{display:flex;gap:12px;flex-wrap:wrap}
+.sw{width:132px;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#150C26cc}
+.sw i{display:block;height:74px}
+.sw div{padding:9px 11px}
+.sw b{display:block;font-size:12px}
+.sw span{font-size:11px;color:var(--dim)}
+
+footer{position:relative;z-index:2;border-top:1px solid var(--line);margin-top:80px}
+.fin{max-width:1240px;margin:0 auto;padding:26px 24px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;
+  font-size:13px;color:var(--dim)}
+.fin .badge{border:1px solid #C6FF3D55;color:var(--spark);background:#C6FF3D14;padding:7px 13px;border-radius:999px;
+  font-size:11px;letter-spacing:.16em;font-weight:700}
+@media (max-width:900px){
+  .hero{grid-template-columns:1fr}
+  .g2,.g3{grid-template-columns:1fr}
+  .hin nav{display:none}
+}
+</style>
+</head>
+<body>
+<div class="bg"><i class="g1"></i><i class="g2"></i><i class="g3"></i><div class="grid"></div><div class="belt b1"></div><div class="belt b2"></div></div>
+
+<header><div class="hin">
+  <img src="../brand/logo-transparent.png" alt="Grabo">
+  <nav>
+    <a href="#video">Video</a><a href="#box">Kotak</a><a href="#poster">Poster</a>
+    <a href="#sosial">Sosial</a><a href="#merek">Merek</a>
+  </nav>
+</div></header>
+
+<main>
+  <div class="hero">
+    <div>
+      <span class="chip"><span class="dot"></span>Kit promosi &amp; merek</span>
+      <h1>SATU HALAMAN.<br><span class="grad">SEMUA MEDIANYA.</span></h1>
+      <p class="lead">Semua materi di halaman ini dirender dari HTML/CSS dan <b>tangkapan layar asli ekstensi</b> —
+        bukan mockup. Bebas dipakai ulang di bawah lisensi MIT.</p>
+      <div class="stats">
+        <div><b class="grad">5</b><span>sumber panen</span></div>
+        <div><b class="grad">9</b><span>tab vertikal</span></div>
+        <div><b class="grad">¼</b><span>sidebar</span></div>
+        <div><b class="grad">0</b><span>unggah</span></div>
+      </div>
+      <div class="cta">
+        <a class="btn pri" href="grabo-promo.mp4">Tonton video promo</a>
+        <a class="btn" href="https://github.com/aisac-id/grabo">Repositori</a>
+      </div>
+    </div>
+    <div class="shot"><img src="hero-1920x1080.png" alt="Grabo hero"></div>
+  </div>
+
+  <section id="video">
+    <div class="sh"><div><div class="rule"></div><h2>Video promo</h2></div><p>1920×1080 · 30 fps · 24 detik · dengan suara</p></div>
+    <div class="video"><video controls poster="video-poster.jpg" preload="metadata" src="grabo-promo.mp4"></video></div>
+    <p class="note">Enam bingkai: judul → panen 5 sumber → galeri &amp; pilihan → antrian → folder &amp; manifes → penutup.
+      Gerak kamera lembut, transisi silang, dan bantalan suara yang disintesis lokal.</p>
+    <div class="grid g2" style="margin-top:22px">
+      <div class="card"><span class="im"><img src="grabo-preview.gif" alt="Pratinjau GIF"></span>
+        <div class="cap"><b>grabo-preview.gif</b><span>520 px · 6 fps</span><a href="grabo-preview.gif">UNDUH</a></div></div>
+      <div class="card"><span class="im"><img src="video-poster.jpg" alt="Poster video"></span>
+        <div class="cap"><b>video-poster.jpg</b><span>1280×720</span><a href="video-poster.jpg">UNDUH</a></div></div>
+    </div>
+  </section>
+
+  <section id="box">
+    <div class="sh"><div><div class="rule"></div><h2>Kotak perangkat lunak</h2></div><p>3D CSS, bukan render eksternal</p></div>
+    <div class="grid g2">
+      <div class="card"><span class="im"><img src="box-grabo.png" alt="Kotak Grabo"></span>
+        <div class="cap"><b>box-grabo.png</b><span>1500×1500</span><a href="box-grabo.png">UNDUH</a></div></div>
+      <div class="card"><span class="im"><img src="features-1600x900.png" alt="Lembar fitur"></span>
+        <div class="cap"><b>features-1600x900.png</b><span>1600×900</span><a href="features-1600x900.png">UNDUH</a></div></div>
+    </div>
+  </section>
+
+  <section id="poster">
+    <div class="sh"><div><div class="rule"></div><h2>Poster &amp; hero</h2></div><p>siap cetak &amp; siap web</p></div>
+    <div class="grid g2">
+      <div class="card"><span class="im"><img src="poster-grabo.png" alt="Poster Grabo"></span>
+        <div class="cap"><b>poster-grabo.png</b><span>1400×1980</span><a href="poster-grabo.png">UNDUH</a></div></div>
+      <div>
+        <div class="card"><span class="im"><img src="hero-1920x1080.png" alt="Hero"></span>
+          <div class="cap"><b>hero-1920x1080.png</b><span>1920×1080</span><a href="hero-1920x1080.png">UNDUH</a></div></div>
+        <div class="card" style="margin-top:22px"><span class="im"><img src="banner-1500x500.png" alt="Banner"></span>
+          <div class="cap"><b>banner-1500x500.png</b><span>1500×500</span><a href="banner-1500x500.png">UNDUH</a></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="sosial">
+    <div class="sh"><div><div class="rule"></div><h2>Aset sosial</h2></div><p>OG, persegi, dan story</p></div>
+    <div class="grid g3">
+      <div class="card"><span class="im"><img src="og-1200x630.png" alt="OG"></span>
+        <div class="cap"><b>og-1200x630.png</b><span>1200×630</span><a href="og-1200x630.png">UNDUH</a></div></div>
+      <div class="card"><span class="im"><img src="social-square-1080.png" alt="Persegi"></span>
+        <div class="cap"><b>social-square-1080.png</b><span>1080×1080</span><a href="social-square-1080.png">UNDUH</a></div></div>
+      <div class="card"><span class="im"><img src="story-1080x1920.png" alt="Story"></span>
+        <div class="cap"><b>story-1080x1920.png</b><span>1080×1920</span><a href="story-1080x1920.png">UNDUH</a></div></div>
+    </div>
+  </section>
+
+  <section id="merek">
+    <div class="sh"><div><div class="rule"></div><h2>Merek</h2></div><p>logo, ikon, palet, tipografi</p></div>
+    <div class="grid g2">
+      <div class="card"><span class="im" style="padding:26px;background:#150C26"><img src="../brand/logo-transparent.png" alt="Logo"></span>
+        <div class="cap"><b>logo.svg / logo.png</b><span>vektor + 1520×480</span><a href="../brand/logo.svg">SVG</a></div></div>
+      <div class="card"><span class="im" style="padding:26px;background:#150C26;display:flex;justify-content:center">
+        <img src="../icons/icon512.png" alt="Ikon" style="width:180px"></span>
+        <div class="cap"><b>icon16…512</b><span>PNG</span><a href="../icons/icon512.png">512</a></div></div>
+    </div>
+    <div class="pal" style="margin-top:22px">
+      <div class="sw"><i style="background:#FF2E88"></i><div><b>Magenta</b><span class="mono">#FF2E88</span></div></div>
+      <div class="sw"><i style="background:#8B5CFF"></i><div><b>Ungu</b><span class="mono">#8B5CFF</span></div></div>
+      <div class="sw"><i style="background:#00E5FF"></i><div><b>Sian</b><span class="mono">#00E5FF</span></div></div>
+      <div class="sw"><i style="background:#C6FF3D"></i><div><b>Spark</b><span class="mono">#C6FF3D</span></div></div>
+      <div class="sw"><i style="background:#FF4D5E"></i><div><b>Bahaya</b><span class="mono">#FF4D5E</span></div></div>
+      <div class="sw"><i style="background:#FFB020"></i><div><b>Peringatan</b><span class="mono">#FFB020</span></div></div>
+      <div class="sw"><i style="background:#0B0611"></i><div><b>Ink</b><span class="mono">#0B0611</span></div></div>
+    </div>
+    <p class="note">Tipografi: <b>Bricolage Grotesque</b> (judul), <b>Plus Jakarta Sans</b> (teks),
+      <b>JetBrains Mono</b> (angka &amp; label) — semuanya SIL OFL 1.1, dibundel lokal di <span class="mono">fonts/</span>.
+      Motif visual: ban berjalan dan tiket antrian berperforasi.</p>
+  </section>
+</main>
+
+<footer><div class="fin">
+  <span class="badge mono">MIT · OPEN SOURCE</span>
+  <span class="mono">github.com/aisac-id/grabo</span>
+  <span style="margin-left:auto">Semua tangkapan layar berasal dari uji runtime nyata ekstensi.</span>
+</div></footer>
+</body>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grabo Studio</title>
+<link rel="stylesheet" href="src/ui.css">
+</head>
+<body class="studio">
+<div class="shell">
+
+  <header class="head">
+    <span id="mark"></span>
+    <span class="brand"><b>Grabo Studio</b><small id="statusline">mesin antrian · siap</small></span>
+    <span class="pill c" id="pill-folder">folder: —</span>
+    <button class="iconbtn" id="btn-sound" title="Suara antarmuka" aria-pressed="true"></button>
+    <button class="iconbtn" id="btn-help" title="Kenapa harus di tab terpisah?"></button>
+  </header>
+
+  <nav class="rail" id="rail" role="tablist" aria-label="Bagian Studio" aria-orientation="vertical"></nav>
+
+  <main class="main" id="main">
+    <div class="busy" id="busy"><u></u><span id="busy-label">Bekerja…</span></div>
+
+    <!-- ANTRIAN -->
+    <section class="pane" id="pane-queue" role="tabpanel">
+      <h2>Antrian massal</h2>
+      <p class="lede">Pekerjaan berjalan di tab ini: tetap hidup walau service worker tertidur, dan bisa menulis langsung ke folder pilihanmu.</p>
+      <div class="stats" id="q-stats"></div>
+      <div class="row" style="margin:12px 0">
+        <button class="btn primary" id="q-run">Jalankan antrian</button>
+        <button class="btn" id="q-pause">Jeda</button>
+        <button class="btn" id="q-cancel">Hentikan</button>
+        <button class="btn" id="q-retry">Ulang yang gagal</button>
+        <button class="btn ghost" id="q-cleardone">Bersihkan yang selesai</button>
+        <button class="btn ghost danger" id="q-clearall">Kosongkan semua</button>
+      </div>
+      <div class="sect">
+        <h3>Sabuk pekerjaan</h3>
+        <div class="tickets" id="q-list"></div>
+        <div class="empty" id="q-empty">Belum ada pekerjaan. Panen dari sidebar, tempel tautan massal, atau tarik dari Bluesky.</div>
+      </div>
+    </section>
+
+    <!-- TAUTAN MASSAL -->
+    <section class="pane" id="pane-links" role="tabpanel">
+      <h2>Tautan massal</h2>
+      <p class="lede">Satu tautan per baris. Setiap tautan dibuka di tab latar dengan sesi loginmu, dipanen, lalu ditutup. Hasilnya masuk antrian.</p>
+      <div class="cols">
+        <div>
+          <div class="ctl"><label>Daftar tautan <b id="l-count">0 tautan</b></label>
+            <textarea id="l-urls" rows="12" placeholder="https://www.tiktok.com/@akunku&#10;https://www.instagram.com/akunku/&#10;https://bsky.app/profile/akunku.bsky.social&#10;https://dreamina.capcut.com/ai-tool/image/generate"></textarea>
+          </div>
+          <div class="row">
+            <button class="btn primary" id="l-run">Panen berantai</button>
+            <button class="btn" id="l-stop">Hentikan</button>
+            <button class="btn ghost" id="l-paste">Tempel dari clipboard</button>
+            <button class="btn ghost" id="l-clear">Kosongkan</button>
+          </div>
+        </div>
+        <div>
+          <div class="sect">
+            <h3>Pilihan panen</h3>
+            <label class="sw"><input type="checkbox" id="l-scroll" checked><u></u><span>Gulir otomatis tiap halaman</span></label>
+            <label class="sw"><input type="checkbox" id="l-keep"><u></u><span>Biarkan tab tetap terbuka</span></label>
+            <label class="sw"><input type="checkbox" id="l-autorun"><u></u><span>Langsung jalankan antrian</span></label>
+            <div class="ctl"><label>Jeda antar tautan <b id="l-v-gap">900 ms</b></label><input type="range" id="l-gap" min="300" max="8000" step="100"></div>
+          </div>
+          <div class="sect">
+            <h3>Kemajuan</h3>
+            <div class="card" id="l-state">Belum berjalan.</div>
+          </div>
+          <div class="note warn"><b>Jaga akunmu:</b> jeda antar tautan sengaja tidak bisa nol. Menggulir ribuan pos sekaligus adalah cara tercepat kena pembatasan. Untuk arsip besar Instagram/TikTok, pakai ekspor data resmi.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLUESKY -->
+    <section class="pane" id="pane-bluesky" role="tabpanel">
+      <h2>Bluesky (AT Protocol publik)</h2>
+      <p class="lede">Diambil lewat API publik tanpa token. Blob asli resolusi penuh, bukan thumbnail.</p>
+      <div class="cols">
+        <div>
+          <div class="ctl"><label>Handle atau DID</label><input type="text" id="b-handle" class="mono" placeholder="nama.bsky.social"></div>
+          <div class="ctl"><label>Jenis umpan</label>
+            <select id="b-filter">
+              <option value="posts_with_media">pos dengan media</option>
+              <option value="posts_no_replies">pos tanpa balasan</option>
+              <option value="posts_with_replies">semua pos</option>
+            </select>
+          </div>
+          <div class="ctl"><label>Batas media <b id="b-v-limit">200</b></label><input type="range" id="b-limit" min="20" max="1000" step="20"></div>
+          <div class="row">
+            <button class="btn primary" id="b-run">Ambil media</button>
+            <button class="btn" id="b-stop">Hentikan</button>
+          </div>
+        </div>
+        <div>
+          <div class="sect"><h3>Hasil</h3><div class="card" id="b-state">Belum ada penarikan.</div></div>
+          <div class="grid" id="b-grid"></div>
+          <div class="note">Video Bluesky datang sebagai playlist HLS. Grabo menggabungkan segmennya bila tidak terenkripsi; kalau terproteksi, ditandai dan dilewati.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KELUARAN -->
+    <section class="pane" id="pane-output" role="tabpanel">
+      <h2>Folder &amp; nama berkas</h2>
+      <p class="lede">Di sini folder tujuan dipilih sungguhan. Chrome hanya mengizinkan pemilih folder dari halaman ekstensi tingkat atas — bukan dari sidebar di dalam halaman orang lain.</p>
+      <div class="folder" id="o-box">
+        <span id="o-icon"></span>
+        <div><b id="o-name">Belum ada folder tujuan</b><small id="o-sub">Klik “Pilih folder” untuk menentukan tempat menyimpan.</small></div>
+        <button class="btn primary" id="o-pick">Pilih folder</button>
+        <button class="btn" id="o-allow">Izinkan ulang</button>
+      </div>
+      <div class="cols" style="margin-top:14px">
+        <div>
+          <div class="ctl"><label>Mode penulisan</label>
+            <select id="o-mode">
+              <option value="fs">Folder nyata (File System Access)</option>
+              <option value="downloads">Unduhan Chrome (folder Unduhan/Grabo)</option>
+            </select>
+          </div>
+          <div class="ctl"><label>Template nama &amp; subfolder</label><input type="text" class="mono" id="o-tpl"></div>
+          <div class="chips" id="o-tokens" style="margin-bottom:9px"></div>
+          <label class="sw"><input type="checkbox" id="o-manifest"><u></u><span>Tulis manifest asal-usul JSON</span></label>
+          <label class="sw"><input type="checkbox" id="o-overwrite"><u></u><span>Timpa berkas bernama sama (kalau mati: tambah -2, -3)</span></label>
+          <div class="row" style="margin-top:8px">
+            <button class="btn sm" id="o-test">Uji tulis satu berkas</button>
+            <button class="btn sm ghost" id="o-internal">Pakai penyimpanan internal</button>
+          </div>
+        </div>
+        <div>
+          <div class="sect"><h3>Pratinjau jalur</h3><div class="card"><div class="kv" id="o-preview"></div></div></div>
+          <div class="note">Mode Unduhan tidak bisa menulis ke folder sembarang — itu batas Chrome, bukan batas Grabo. Kalau butuh folder bebas (misal <span class="mono">D:\Arsip\AI</span>), pakai mode folder nyata.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIDEO -->
+    <section class="pane" id="pane-video" role="tabpanel">
+      <h2>Video &amp; aliran</h2>
+      <p class="lede">Playlist HLS/DASH dipecah, segmennya diunduh berurutan, lalu digabung jadi satu berkas. Tanpa DRM, tanpa tebakan kunci.</p>
+      <div class="cols">
+        <div>
+          <div class="ctl"><label>Kualitas varian</label><select id="v-quality"><option value="best">terbaik</option><option value="mid">menengah</option><option value="low">terkecil</option></select></div>
+          <div class="ctl"><label>Batas segmen <b id="v-v-segs">4000</b></label><input type="range" id="v-segs" min="100" max="8000" step="100"></div>
+          <div class="ctl"><label>Uji playlist langsung (URL .m3u8 / .mpd)</label><input type="text" class="mono" id="v-url" placeholder="https://contoh.id/aliran/master.m3u8"></div>
+          <div class="row"><button class="btn primary" id="v-probe">Periksa playlist</button><button class="btn" id="v-enqueue">Antrekan</button></div>
+        </div>
+        <div>
+          <div class="sect"><h3>Hasil pemeriksaan</h3><div class="card" id="v-out">Belum diperiksa.</div></div>
+          <div class="sect"><h3>Playlist di antrian</h3><div class="tickets" id="v-list"></div><div class="empty" id="v-empty">Tidak ada playlist di antrian.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MANIFEST -->
+    <section class="pane" id="pane-manifest" role="tabpanel">
+      <h2>Manifest &amp; hasil</h2>
+      <p class="lede">Setiap berkas tercatat: dari URL mana, halaman apa, kapan, dan hash isinya. Berguna untuk membuktikan asal-usul arsipmu sendiri.</p>
+      <div class="row" style="margin-bottom:10px">
+        <button class="btn primary" id="m-flush">Tulis manifest sekarang</button>
+        <button class="btn" id="m-export">Unduh salinan JSON</button>
+        <span class="pill s" id="m-count">0 berkas</span>
+      </div>
+      <div class="wrap">
+        <table class="table"><thead><tr><th>#</th><th>Berkas</th><th>Sumber</th><th>Ukuran</th><th>Hash</th></tr></thead><tbody id="m-rows"></tbody></table>
+      </div>
+      <div class="empty" id="m-empty">Belum ada berkas tersimpan.</div>
+    </section>
+
+    <!-- LOG -->
+    <section class="pane" id="pane-log" role="tabpanel">
+      <h2>Catatan mesin</h2>
+      <p class="lede">Semua keputusan antrian: throttle, percobaan ulang, dedup, dan alasan melewati konten terproteksi.</p>
+      <div class="row" style="margin-bottom:9px"><button class="btn sm ghost" id="log-clear">Bersihkan tampilan</button><span class="pill" id="log-count">0 baris</span></div>
+      <div class="log" id="log-box" style="max-height:60vh"></div>
+    </section>
+
+    <!-- PENGATURAN -->
+    <section class="pane" id="pane-settings" role="tabpanel">
+      <h2>Pengaturan mesin</h2>
+      <p class="lede">Berlaku untuk semua pekerjaan. Setelan yang sama juga bisa diubah dari sidebar.</p>
+      <div class="cols">
+        <div class="sect">
+          <h3>Antrian</h3>
+          <div class="ctl"><label>Pekerja bersamaan <b id="s-v-workers">2</b></label><input type="range" id="s-workers" min="1" max="4" step="1"></div>
+          <div class="ctl"><label>Jeda per host <b id="s-v-gap">400 ms</b></label><input type="range" id="s-gap" min="0" max="4000" step="100"></div>
+          <div class="ctl"><label>Percobaan ulang <b id="s-v-retries">2</b></label><input type="range" id="s-retries" min="0" max="5" step="1"></div>
+          <label class="sw"><input type="checkbox" id="s-dedup"><u></u><span>Lewati isi kembar (SHA-256)</span></label>
+          <div class="row" style="margin-top:8px"><button class="btn sm danger" id="s-wipehash">Hapus daftar hash</button><span class="pill" id="s-hashcount">0 hash</span></div>
+        </div>
+        <div class="sect">
+          <h3>Antarmuka</h3>
+          <label class="sw"><input type="checkbox" id="s-sound"><u></u><span>Suara antarmuka</span></label>
+          <div class="ctl"><label>Volume <b id="s-v-vol">50%</b></label><input type="range" id="s-vol" min="0" max="100" step="5"></div>
+          <div class="ctl"><label>Lebar sidebar <b id="s-v-width">25%</b></label><input type="range" id="s-width" min="18" max="50" step="1"></div>
+          <div class="note" style="margin-top:9px"><b>Kenapa tab terpisah?</b> Service worker Manifest V3 mati saat menganggur dan tidak punya DOM. Pemilih folder, penggabungan video, dan antrian panjang butuh halaman nyata yang tetap hidup. Sidebar tetap jadi remote control-nya.</div>
+          <div class="note" style="margin-top:8px">Grabo 1.0.0 · MIT · <a href="https://github.com/aisac-id/grabo" target="_blank" rel="noreferrer">aisac-id/grabo</a></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="dock" id="dock">
+    <div class="dockhead">
+      <strong>Kendali mesin</strong>
+      <span class="live" id="dock-live">siap</span>
+      <span class="grow"></span>
+      <span class="pill a" id="dock-count">0 antre</span>
+      <span class="pill s" id="dock-done">0 selesai</span>
+    </div>
+    <div class="dockgrid">
+      <div class="ctl"><label>Pekerja <b id="d-v-workers">2</b></label><input type="range" id="d-workers" min="1" max="4" step="1"></div>
+      <div class="ctl"><label>Jeda/host <b id="d-v-gap">400 ms</b></label><input type="range" id="d-gap" min="0" max="4000" step="100"></div>
+      <div class="ctl"><label>Coba ulang <b id="d-v-retries">2</b></label><input type="range" id="d-retries" min="0" max="5" step="1"></div>
+      <div class="ctl"><label>Batas segmen <b id="d-v-segs">4000</b></label><input type="range" id="d-segs" min="100" max="8000" step="100"></div>
+      <div class="ctl"><label>Kualitas video</label><select id="d-quality"><option value="best">terbaik</option><option value="mid">menengah</option><option value="low">terkecil</option></select></div>
+      <div class="ctl"><label>Keluaran</label><select id="d-mode"><option value="fs">folder nyata</option><option value="downloads">unduhan Chrome</option></select></div>
+      <div class="ctl wide"><label>Template nama</label><input type="text" class="mono" id="d-tpl"></div>
+      <div class="wide swgrid">
+        <label class="sw"><input type="checkbox" id="d-dedup"><u></u><span>Anti kembar</span></label>
+        <label class="sw"><input type="checkbox" id="d-manifest"><u></u><span>Manifest</span></label>
+        <label class="sw"><input type="checkbox" id="d-overwrite"><u></u><span>Timpa</span></label>
+        <label class="sw"><input type="checkbox" id="d-autorun"><u></u><span>Jalan otomatis</span></label>
+      </div>
+    </div>
+    <div class="dockact">
+      <button class="btn primary" id="d-run">Jalankan</button>
+      <button class="btn" id="d-pause">Jeda</button>
+      <button class="btn" id="d-folder">Folder</button>
+      <button class="btn ghost" id="d-links">Tautan massal</button>
+    </div>
+  </footer>
+</div>
+
+<script src="src/util.js"></script>
+<script src="src/icons.js"></script>
+<script src="src/audio.js"></script>
+<script src="src/store.js"></script>
+<script src="src/writer.js"></script>
+<script src="src/hls.js"></script>
+<script src="src/queue.js"></script>
+<script src="src/bluesky.js"></script>
+<script src="src/studio.js"></script>
+</body>
+</html>
